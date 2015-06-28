@@ -163,11 +163,11 @@ protected:
     static std::unordered_map<std::string, EnumType, std::hash<std::string>, equal_to_i> tableString2Enum;
 };
 
-#define ZIMPL_ENUM(ClassName,EnumType) \
+#define VXIMPL_ENUM(ClassName,EnumType) \
     std::unordered_map<std::string, EnumType, std::hash<std::string>, equal_to_i> ClassName::tableString2Enum; \
     std::unordered_map<EnumType, std::string> ClassName::tableEnum2String
 
-#define ZDEF_ENUM(ClassName,EnumType) \
+#define VXDEF_ENUM(ClassName,EnumType) \
 class ClassName : public VXEnumTypeInfo<EnumType> \
 { \
 public: \
@@ -176,19 +176,19 @@ public: \
     ClassName(const std::string& strValue) : VXEnumTypeInfo<EnumType>(strValue) {} \
 }
 
-ZDEF_ENUM(VXEnumParticleMode, cocos2d::ParticleSystem::Mode);
-ZDEF_ENUM(VXEnumParticlePositionType, cocos2d::ParticleSystem::PositionType);
-ZDEF_ENUM(VXEnumGLBlendFunc, GLenum);
-ZDEF_ENUM(VXEnumObjectType, VXObjectType);
-ZDEF_ENUM(VXEnumParticleType, VXParticleType);
-ZDEF_ENUM(VXEnumLocateType, VXLocateType);
-ZDEF_ENUM(VXEnumLabelEffect, cocos2d::LabelEffect);
-ZDEF_ENUM(VXEnumLabelTextVAlignment, cocos2d::TextVAlignment);
-ZDEF_ENUM(VXEnumLabelTextHAlignment, cocos2d::TextHAlignment);
-ZDEF_ENUM(VXEnumLabelFontType, cocos2d::ui::Text::Type);
-ZDEF_ENUM(VXEnumLayoutType, cocos2d::ui::Layout::Type);
-ZDEF_ENUM(VXEnumLayoutClippingType, cocos2d::ui::Layout::ClippingType);
-ZDEF_ENUM(VXEnumLayoutBackGroundColorType, cocos2d::ui::Layout::BackGroundColorType);
+VXDEF_ENUM(VXEnumParticleMode, cocos2d::ParticleSystem::Mode);
+VXDEF_ENUM(VXEnumParticlePositionType, cocos2d::ParticleSystem::PositionType);
+VXDEF_ENUM(VXEnumGLBlendFunc, GLenum);
+VXDEF_ENUM(VXEnumObjectType, VXObjectType);
+VXDEF_ENUM(VXEnumParticleType, VXParticleType);
+VXDEF_ENUM(VXEnumLocateType, VXLocateType);
+VXDEF_ENUM(VXEnumLabelEffect, cocos2d::LabelEffect);
+VXDEF_ENUM(VXEnumLabelTextVAlignment, cocos2d::TextVAlignment);
+VXDEF_ENUM(VXEnumLabelTextHAlignment, cocos2d::TextHAlignment);
+VXDEF_ENUM(VXEnumLabelFontType, cocos2d::ui::Text::Type);
+VXDEF_ENUM(VXEnumLayoutType, cocos2d::ui::Layout::Type);
+VXDEF_ENUM(VXEnumLayoutClippingType, cocos2d::ui::Layout::ClippingType);
+VXDEF_ENUM(VXEnumLayoutBackGroundColorType, cocos2d::ui::Layout::BackGroundColorType);
 
-ZDEF_ENUM(VXEnumScrollDirection, cocos2d::ui::ScrollView::Direction);
-ZDEF_ENUM(VXEnumScrollGravityMode, cocos2d::ui::ListView::Gravity);
+VXDEF_ENUM(VXEnumScrollDirection, cocos2d::ui::ScrollView::Direction);
+VXDEF_ENUM(VXEnumScrollGravityMode, cocos2d::ui::ListView::Gravity);

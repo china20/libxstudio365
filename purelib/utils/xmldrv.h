@@ -379,8 +379,8 @@ namespace xml3s = xmldrv;
 
 #include "xmldrv.inl"
 
-#endif /* _XML4WRAPPER_H_ */
+#endif /* _XMLDRV_H_ */
 /*
-* Copyright (c) 2012-2014 by X.D. Guo  ALL RIGHTS RESERVED.
+* Copyright (c) 2012-2015 by X.D. Guo  ALL RIGHTS RESERVED.
 * Consult your license regarding permissions and restrictions.
 **/

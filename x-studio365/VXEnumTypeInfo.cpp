@@ -3,24 +3,24 @@
 //
 #include "VXEnumTypeInfo.h"
 
-ZIMPL_ENUM(VXEnumParticleMode, cocos2d::ParticleSystem::Mode);
-ZIMPL_ENUM(VXEnumParticlePositionType, cocos2d::ParticleSystem::PositionType);
-ZIMPL_ENUM(VXEnumGLBlendFunc, GLenum);
-ZIMPL_ENUM(VXEnumObjectType, VXObjectType);
-ZIMPL_ENUM(VXEnumParticleType, VXParticleType);
-ZIMPL_ENUM(VXEnumLocateType, VXLocateType);
-ZIMPL_ENUM(VXEnumLabelEffect, cocos2d::LabelEffect);
+VXIMPL_ENUM(VXEnumParticleMode, cocos2d::ParticleSystem::Mode);
+VXIMPL_ENUM(VXEnumParticlePositionType, cocos2d::ParticleSystem::PositionType);
+VXIMPL_ENUM(VXEnumGLBlendFunc, GLenum);
+VXIMPL_ENUM(VXEnumObjectType, VXObjectType);
+VXIMPL_ENUM(VXEnumParticleType, VXParticleType);
+VXIMPL_ENUM(VXEnumLocateType, VXLocateType);
+VXIMPL_ENUM(VXEnumLabelEffect, cocos2d::LabelEffect);
 
-ZIMPL_ENUM(VXEnumLabelTextHAlignment, cocos2d::TextHAlignment);
-ZIMPL_ENUM(VXEnumLabelTextVAlignment, cocos2d::TextVAlignment);
-ZIMPL_ENUM(VXEnumLabelFontType, cocos2d::ui::Text::Type);
+VXIMPL_ENUM(VXEnumLabelTextHAlignment, cocos2d::TextHAlignment);
+VXIMPL_ENUM(VXEnumLabelTextVAlignment, cocos2d::TextVAlignment);
+VXIMPL_ENUM(VXEnumLabelFontType, cocos2d::ui::Text::Type);
 
-ZIMPL_ENUM(VXEnumLayoutType, cocos2d::ui::Layout::Type);
-ZIMPL_ENUM(VXEnumLayoutClippingType, cocos2d::ui::Layout::ClippingType);
-ZIMPL_ENUM(VXEnumLayoutBackGroundColorType, cocos2d::ui::Layout::BackGroundColorType);
+VXIMPL_ENUM(VXEnumLayoutType, cocos2d::ui::Layout::Type);
+VXIMPL_ENUM(VXEnumLayoutClippingType, cocos2d::ui::Layout::ClippingType);
+VXIMPL_ENUM(VXEnumLayoutBackGroundColorType, cocos2d::ui::Layout::BackGroundColorType);
 
-ZIMPL_ENUM(VXEnumScrollDirection, cocos2d::ui::ScrollView::Direction);
-ZIMPL_ENUM(VXEnumScrollGravityMode, cocos2d::ui::ListView::Gravity);
+VXIMPL_ENUM(VXEnumScrollDirection, cocos2d::ui::ScrollView::Direction);
+VXIMPL_ENUM(VXEnumScrollGravityMode, cocos2d::ui::ListView::Gravity);
 
 void tableInit(void)
 {
