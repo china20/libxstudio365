@@ -1,7 +1,8 @@
 //
 // Copyright (c) 2015 x-studio365 - All Rights Reserved.
 //
-#pragma once
+#ifndef _VXENUMTYPEINFO_H_
+#define _VXENUMTYPEINFO_H_
 #include <string>
 #include <unordered_map>
 #include <cocos2d.h>
@@ -192,3 +193,5 @@ VXDEF_ENUM(VXEnumLayoutBackGroundColorType, cocos2d::ui::Layout::BackGroundColor
 
 VXDEF_ENUM(VXEnumScrollDirection, cocos2d::ui::ScrollView::Direction);
 VXDEF_ENUM(VXEnumScrollGravityMode, cocos2d::ui::ListView::Gravity);
+
+#endif /* _VXENUMTYPEINFO_H_ */

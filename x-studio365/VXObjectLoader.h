@@ -1,8 +1,8 @@
 //
 // Copyright (c) 2015 x-studio365 - All Rights Reserved.
 //
-#ifndef _ULIMIT_OBJECT_LOADER_H_
-#define _ULIMIT_OBJECT_LOADER_H_
+#ifndef _VX_OBJECT_LOADER_H_
+#define _VX_OBJECT_LOADER_H_
 #include <unordered_map>
 #include <functional>
 #include <cocos2d.h>
