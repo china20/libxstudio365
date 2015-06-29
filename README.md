@@ -1,5 +1,8 @@
 # libxstudio365
 The x-studio365 UI(Scene) loader lib.
+
+VERSION: 1.0.31.0
+
 compile list:
 purelib/utils/aes_core.c
 purelib/utils/crypto_utils.cpp
@@ -19,3 +22,5 @@ VXObjectLoader.cpp
 VXObjectLoaderImpl.cpp
 VXEnumTypeInfo.cpp
 VXObjectAttribsLoader.cpp
+VXObjectFactory.cpp
+VXObjectFuncTable.cpp
