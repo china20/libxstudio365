@@ -20,17 +20,17 @@
 using namespace inet;
 
 namespace inet {
-    class PacketForSend : public cocos2d::Ref
+    class TcpSendingPacket : public cocos2d::Ref
     {
     public:
-        PacketForSend(std::vector<char>&& right, const OnPacketSendCallback& callback)
+        TcpSendingPacket(std::vector<char>&& right, const TcpClient::OnPacketSendCallback& callback)
         {
             data = std::move(right);
             onSend = callback;
             timestamp = std::clock();
         }
         std::vector<char>      data;
-        OnPacketSendCallback   onSend;
+        TcpClient::OnPacketSendCallback onSend;
         long                   timestamp;
     };
 }
@@ -62,6 +62,12 @@ TcpClient::~TcpClient()
     }
 }
 
+void TcpClient::setEndpoint(const char* address, u_short port)
+{
+    this->address = address;
+    this->port = port;
+}
+
 bool TcpClient::init()
 {
     if (!threadStarted) {
@@ -90,7 +96,7 @@ void TcpClient::close()
 
 void TcpClient::handleError(void)
 {
-	reconnClock = clock();
+    reconnClock = clock();
 
     impl.close();
     connected = false;
@@ -104,7 +110,7 @@ void TcpClient::handleError(void)
 
 void TcpClient::setConnectionEstablishedListener(const std::function<void()>& callback)
 {
-	this->connectionEstablishedListener = callback;
+    this->connectionEstablishedListener = callback;
 }
 
 void TcpClient::setConnectionLostListener(const std::function<void()>& callback)
@@ -124,7 +130,7 @@ void TcpClient::setOnRecvListener(const OnPacketRecvCallback& callback)
 
 void TcpClient::send(std::vector<char>&& data, const OnPacketSendCallback& callback)
 {
-    auto pdu = new PacketForSend(std::move(data), callback);
+    auto pdu = new TcpSendingPacket(std::move(data), callback);
 
     std::unique_lock<std::mutex> autolock(sendQueueMtx);
     sendQueue.push(pdu);   //消息队列
@@ -167,17 +173,17 @@ bool TcpClient::connect(void)
 
         cocos2d::log("connect server: %s:%u succeed.", address.c_str(), port);
 
-		if (this->connectionEstablishedListener != nullptr) {
-			CCRUNONGL([this]{
-				connectionEstablishedListener();
-			});
-		}
+        if (this->connectionEstablishedListener != nullptr) {
+            CCRUNONGL([this]{
+                connectionEstablishedListener();
+            });
+        }
 
         return true;
     }
     else {
-    	int ec = xxsocket::get_last_errno();
-    	cocos2d::log("connect server: %s:%u failed, error code:%d, error msg:%s!", address.c_str(), port, ec, xxsocket::get_error_msg(ec));
+        int ec = xxsocket::get_last_errno();
+        cocos2d::log("connect server: %s:%u failed, error code:%d, error msg:%s!", address.c_str(), port, ec, xxsocket::get_error_msg(ec));
     }
 
     return false;
@@ -191,27 +197,27 @@ void TcpClient::service()
 
     while (!bAppExiting) {
 
-		bool connection_ok = impl.is_open();
+        bool connection_ok = impl.is_open();
 
-		auto elapsed = (clock() - reconnClock);
-		if (!connection_ok && elapsed > (RECONNECT_DELAY * CLOCKS_PER_SEC))
+        auto elapsed = (clock() - reconnClock);
+        if (!connection_ok && elapsed > (RECONNECT_DELAY * CLOCKS_PER_SEC))
         {
-			cocos2d::log("connecting server %s:%u...", address.c_str(), port);
+            cocos2d::log("connecting server %s:%u...", address.c_str(), port);
             connected = connect();
             if (!connected) {
                 CCRUNONGL([this]{
                     cocos2d::log("connect server %s:%u failed", this->address.c_str(), this->port);
                 });
                 // sleep(RECONNECT_DELAY);
-				reconnClock = clock();
+                reconnClock = clock();
                 continue;
             }
         }
 
-		if (!connection_ok) {
-			msleep(1);
-			continue;
-		}
+        if (!connection_ok) {
+            msleep(1);
+            continue;
+        }
         // event loop
 #if HAS_SELECT_OP == 1
         fd_set read_set, write_set, excep_set;
@@ -224,7 +230,7 @@ void TcpClient::service()
 
 #if HAS_SELECT_OP == 1
             timeout.tv_sec = 5 * 60; // 5 minutes
-            timeout.tv_usec = 0;	 // 10 milliseconds
+            timeout.tv_usec = 0;     // 10 milliseconds
 
             memcpy(&read_set, &readfds, sizeof(fd_set));
             memcpy(&write_set, &writefds, sizeof(fd_set));
@@ -236,7 +242,7 @@ void TcpClient::service()
             {
                 // log("select failed, error code: %d\n", GetLastError());
                 msleep(TIMER_DURATION);
-                continue;			// select again
+                continue;            // select again
             }
 
             if (nfds == 0)
@@ -280,7 +286,7 @@ void TcpClient::service()
                 msleep(1);
             }
 
-        L_Break:;
+            // L_Break:;
         }
     }
 
@@ -350,7 +356,7 @@ bool TcpClient::doRead(void)
 {
     bool bRet = false;
     do {
-        int n = impl.recv_i(this->buffer + offset, sizeof(buffer)-offset);
+        int n = impl.recv_i(this->buffer + offset, sizeof(buffer) - offset);
 
         if (n > 0 || (n == -1 && offset != 0)) {
 

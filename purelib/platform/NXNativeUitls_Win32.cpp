@@ -34,7 +34,22 @@ std::string NXNativeUtils::getDeviceId(void)
 
 std::string NXNativeUtils::getLocalIP(void)
 {
-	return "192.168.1.17";
+	char szHostName[256];
+	if (gethostname(szHostName, sizeof(szHostName)) != 0)
+	{
+		return "0.0.0.0";
+	}
+
+	hostent* lpHostent = gethostbyname(szHostName);
+	if (lpHostent == nullptr)
+		return "0.0.0.0";
+
+	auto lpAddr = lpHostent->h_addr_list[0];
+	struct in_addr inAddr;
+	memmove(&inAddr, lpAddr, 4);
+	const char* ip = inet_ntoa(*(struct in_addr *)lpAddr);
+
+	return ip;
 }
 
 NXNativeUtils::NetworkType NXNativeUtils::getNetworkType(void)

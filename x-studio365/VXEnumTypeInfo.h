@@ -29,6 +29,9 @@ enum VXObjectType
 {
     kVXObjectTypeNone,
 
+    // scene
+    kVXObjectTypeScene,
+
     // base
     kVXObjectTypeNode,
     kVXObjectTypeSprite,
@@ -42,7 +45,6 @@ enum VXObjectType
     kVXObjectTypeLabelBMFont,
     kVXObjectTypeRichLabel,
     
-
     // control
     kVXObjectTypeTextField,
     kVXObjectTypeButton,
@@ -61,8 +63,8 @@ enum VXObjectType
     // 3d
     kVXObjectTypeParticleSystem3D,
 
-    // scene
-    kVXObjectTypeScene = 256,
+    // limit value
+    kVXObjectTypeLimitValue,
 };
 
 //

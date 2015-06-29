@@ -10,7 +10,7 @@
 #include "purelib/utils/event_handler_manager.h"
 USING_NS_CC;
 
-namespace x365 {
+namespace vx365 {
     
     enum EventType
     {

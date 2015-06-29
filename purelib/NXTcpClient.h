@@ -15,30 +15,32 @@ using namespace purelib::net;
 
 namespace inet {
 
-    enum ErrorCode {
-        ERR_OK,
-        ERR_CONNECT_FAILED,
-        ERR_CONNECT_TIMEOUT,
-        ERR_SEND_FAILED, // send error, failed
-        ERR_SEND_TIMEOUT,
-        ERR_RECV_FAILED, // recv failed
-        ERR_NETWORK_UNREACHABLE, // wifi or 2,3,4G not open
-        ERR_CONNECTION_LOST,
-        ERR_PACKET_TOO_LONG,
-
-        ERR_DPL_ILLEGAL_PACKET,
-    };
-
-    class PacketForSend;
-
-    typedef bool (*DecodePacketLengthFunc)(const char* data, size_t datalen, int& len);
-
-    typedef std::function<void(int)> OnPacketSendCallback;
-    typedef std::function<void(std::vector<char>&&)> OnPacketRecvCallback;
+    class TcpSendingPacket;
 
     // single thread only
     class TcpClient : public cocos2d::Ref
     {
+    public:
+        enum ErrorCode {
+            ERR_OK, // NO ERROR
+            ERR_CONNECT_FAILED, // connect failed
+            ERR_CONNECT_TIMEOUT, // connect timeout
+            ERR_SEND_FAILED, // send error, failed
+            ERR_SEND_TIMEOUT, // send timeout
+            ERR_RECV_FAILED, // recv failed
+            ERR_NETWORK_UNREACHABLE, // wifi or 2,3,4G not open
+            ERR_CONNECTION_LOST, // connection lost
+            ERR_PACKET_TOO_LONG, // packet too long
+            ERR_DPL_ILLEGAL_PACKET, // decode packet error.
+        };
+
+        // End user packet decode length func
+        typedef bool(*DecodePacketLengthFunc)(const char* data, size_t datalen, int& len);
+
+        // callbacks
+        typedef std::function<void(ErrorCode)> OnPacketSendCallback;
+        typedef std::function<void(std::vector<char>&&)> OnPacketRecvCallback;
+
     public:
         TcpClient();
         ~TcpClient();
@@ -46,8 +48,9 @@ namespace inet {
         bool init();
 
         void close();
-        
-		void setConnectionEstablishedListener(const std::function<void()>& callback);
+
+        void setEndpoint(const char* address, u_short port);
+        void setConnectionEstablishedListener(const std::function<void()>& callback);
         void setConnectionLostListener(const std::function<void()>& callback);
 
         void setDecodeLengthFunc(DecodePacketLengthFunc func);
@@ -94,7 +97,7 @@ namespace inet {
         std::mutex              sendQueueMtx;
         std::mutex              recvQueueMtx;
 
-        std::queue<PacketForSend*> sendQueue;
+        std::queue<TcpSendingPacket*> sendQueue;
         std::queue<std::vector<char>> recvQueue;
 
         char                    buffer[512]; // recv buffer
@@ -108,7 +111,7 @@ namespace inet {
 
         //      
         std::function<void()>   connectionLostListener;
-		std::function<void()>   connectionEstablishedListener;
+        std::function<void()>   connectionEstablishedListener;
 
         OnPacketRecvCallback    onRecvPacket;
 
@@ -116,7 +119,7 @@ namespace inet {
 
         bool                    idle;
 
-		long                    reconnClock;
+        long                    reconnClock;
     };
 
 }

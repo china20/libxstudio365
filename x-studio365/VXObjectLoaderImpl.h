@@ -11,7 +11,7 @@
 #include "purelib/utils/xmldrv.h"
 USING_NS_CC; 
 
-namespace x365 {
+namespace vx365 {
 
     class ObjectLoader;
 

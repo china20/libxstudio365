@@ -3,32 +3,18 @@
 //
 #include "VXObjectLoaderImpl.h"
 #include "VXObjectLoader.h"
+#include "VXObjectFactory.h"
 #include "VXObjectAttribsLoader.h"
-
+#include "VXObjectFuncTable.h"
 #include "purelib/NXGameDefs.h"
 
 #include "purelib/utils/xxfsutility.h"
 
-using namespace x365;
+using namespace vx365;
 
-/// object create helpers
-static Node* internalCreateSprite(const xmldrv::element&, ObjectLoader*);
-static Node* internalCreateScale9Sprite(const xmldrv::element&, ObjectLoader*);
-static Node* internalCreateSliderBar(const xmldrv::element&, ObjectLoader*);
-static Node* internalCreateProgressBar(const xmldrv::element&, ObjectLoader*);
-static Node* internalCreateTextField(const xmldrv::element&, ObjectLoader*);
-static Node* internalCreateSwitch(const xmldrv::element&, ObjectLoader*);
-static Node* internalCreateMenuItemImage(const xmldrv::element&, ObjectLoader*);
-static Node* internalCreateLabel(const xmldrv::element&, ObjectLoader*);
-static Node* internalCreateLabelAtlas(const xmldrv::element&, ObjectLoader*);
-static Node* internalCreateLabelBMFont(const xmldrv::element&, ObjectLoader*);
-static Node* internalCreateButton(const xmldrv::element&, ObjectLoader*);
-static Node* internalCreateCheckBox(const xmldrv::element&, ObjectLoader*);
-static Node* internalCreateParticleSystem(const xmldrv::element&, ObjectLoader*);
-
+extern VXFuncTableItem internalFuncTab[];
 
 /// ## end of object create helpers
-
 Node*  ObjectLoaderImpl::convertFromRecursively(const xml4w::document& doc, ObjectLoader* context)
 {
     auto root = doc.root();
@@ -87,81 +73,9 @@ Node* ObjectLoaderImpl::createObjectInternal(const xml4w::element& levelInfo, co
 
 Node* ObjectLoaderImpl::createObjectInternal(const xml4w::element& levelInfo, VXObjectType type, ObjectLoader* context)
 {
-    Node* newNode = NULL;
-    switch (type)
-    {
-    case kVXObjectTypeScene:
-        newNode = Scene::create();
-        break;
-    case kVXObjectTypeNode:
-        newNode = Node::create();
-        break;
-    case kVXObjectTypeLayerColor:
-        newNode = LayerColor::create();
-        break;
-    case kVXObjectTypeMenu: // TODO: support
-        newNode = Menu::create();
-        break;
-    case kVXObjectTypeSprite:
-        newNode = internalCreateSprite(levelInfo, context);
-        break;
-    case kVXObjectTypeScale9Sprite:
-        newNode = internalCreateScale9Sprite(levelInfo, context);
-        break;
-	case kVXObjectTypeMenuItemImage: // TODO: support
-        newNode = internalCreateMenuItemImage(levelInfo, context);
-        break;
-    case kVXObjectTypeButton:
-        newNode = internalCreateButton(levelInfo, context);
-        break;
-    case kVXObjectTypeParticleSystem:
-        newNode = internalCreateParticleSystem(levelInfo, context); // Maybe Need transfer default plist
-        break;
-	case kVXObjectTypeSlider:
-        newNode = internalCreateSliderBar(levelInfo, context);
-		break;
-	case kVXObjectTypeProgressBar:
-        newNode = internalCreateProgressBar(levelInfo, context);
-		break;
-	case kVXObjectTypeCheckBox:
-        newNode = internalCreateCheckBox(levelInfo, context);
-		break;
-	case kVXObjectTypeTextField:
-        newNode = internalCreateTextField(levelInfo, context);
-		break;
-    case kVXObjectTypeLabel:
-        newNode = internalCreateLabel(levelInfo, context);
-        break;
-    case kVXObjectTypeLabelAtlas:
-        newNode = internalCreateLabelAtlas(levelInfo, context);
-        break;
-    case kVXObjectTypeLabelBMFont:
-        newNode = internalCreateLabelBMFont(levelInfo, context);
-        break;
-    case kVXObjectTypeControlSwitch:
-        newNode = internalCreateSwitch(levelInfo, context);
-        break;
-    case kVXObjectTypeScrollView:
-        newNode = ui::ScrollView::create();
-        break;
-    case kVXObjectTypePageView:
-        newNode = ui::PageView::create();
-        break;
-    case kVXObjectTypeListView:
-        newNode = ui::ListView::create();
-        break;
-    case kVXObjectTypeLayout:
-        newNode = ui::Layout::create();
-        break;
-    case kVXObjectTypeRichLabel: // currently has stack overflow bug, unsupport yet.
-        newNode = ui::RichText::create();
-        break;
-    default:
-		assert(false);
-        return nullptr;
-    }
+    Node* newNode = vx365::ObjectFactory::internalCreateObject(levelInfo, type, context);
 
-	/// 初始化变量
+	/// init variables
 	auto varb = context->variable_tab_.find(context->currentkey_);
 	if (varb != context->variable_tab_.end() && varb->second != nullptr)
 	{

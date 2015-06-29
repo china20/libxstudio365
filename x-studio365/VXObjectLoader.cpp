@@ -4,7 +4,7 @@
 #include "VXObjectLoader.h"
 #include "VXObjectLoaderImpl.h"
 
-using namespace x365;
+using namespace vx365;
 
 Node* ObjectLoader::load(const char* file, bool security, const char* key)
 {
