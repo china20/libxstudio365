@@ -68,7 +68,7 @@ Node* vx365::ObjectFactory::internalCreatePageView(const xmldrv::element&, Objec
     return cocos2d::ui::PageView::create();
 }
 
-Node* vx365::ObjectFactory::internalCreateLayout(const xmldrv::element&, ObjectLoader*)
+Node* vx365::ObjectFactory::internalCreateLayout(const xmldrv::element& from, ObjectLoader* ctx)
 {
     return cocos2d::ui::Layout::create();
 }
@@ -103,14 +103,19 @@ Node* vx365::ObjectFactory::internalCreateSliderBar(const xmldrv::element& info,
     auto backgroundImage = info.get_attribute_value("backgroundImage", "");
     auto progressImage = info.get_attribute_value("progressImage", "");
     auto thumbImage = info.get_attribute_value("thumbImage", "");
-    auto thumbSelectedImage = info.get_attribute_value("thumbSelectedImage", "");
+    auto thumbPressedImage = info.get_attribute_value("thumbPressedImage", "");
+    auto thumbDisabledImage = info.get_attribute_value("thumbDisabledImage", "");
 
-    return extension::ControlSlider::create(
-        internalCreateSpriteImpl<Sprite>(backgroundImage, ctx),
-        internalCreateSpriteImpl<Sprite>(progressImage, ctx),
-        internalCreateSpriteImpl<Sprite>(thumbImage, ctx),
-        internalCreateSpriteImpl<Sprite>(thumbSelectedImage, ctx)
-        );
+    auto resType = ctx->isMergedTexUsed() ? ui::Widget::TextureResType::PLIST : ui::Widget::TextureResType::LOCAL;
+
+    ui::Slider* slider = ui::Slider::create();
+    slider->loadBarTexture(backgroundImage, resType);
+    slider->loadProgressBarTexture(progressImage, resType);
+    slider->loadSlidBallTextureNormal(thumbImage, resType);
+    slider->loadSlidBallTexturePressed(thumbPressedImage, resType);
+    slider->loadSlidBallTextureDisabled(thumbDisabledImage, resType);
+    
+    return slider;
 }
 
 Node* vx365::ObjectFactory::internalCreateProgressBar(const xmldrv::element& from, ObjectLoader* ctx)

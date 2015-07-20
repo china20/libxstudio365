@@ -18,7 +18,7 @@ namespace vx365 {
 };
 
 typedef cocos2d::Node* (*LPFUNC_CREATE_OBJECT)(const xmld::element&, vx365::ObjectLoader*);
-typedef void(*LPFUNC_LOAD_OBJECT_ATTR)(const xmld::element&, cocos2d::Node*);
+typedef void(*LPFUNC_LOAD_OBJECT_ATTR)(const xmld::element&, cocos2d::Node*, vx365::ObjectLoader*);
 
 struct VXFuncTableItem
 {

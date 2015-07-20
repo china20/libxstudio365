@@ -6,7 +6,7 @@
 #include <cocos2d.h>
 #include <algorithm>
 #include "utils/politedef.h"
-#include "NXSharedPtr.h"
+
 #include "deprecated/CCDeprecated.h"
 #include <cocos-ext.h>
 
@@ -30,6 +30,7 @@ class nodes_utility {
 
     
     static bool             containsTouchPoint(cocos2d::Node* target, cocos2d::Touch* touch);
+    static bool             containsTouchPoint(cocos2d::Node* target, const cocos2d::Vec2& worldPoint);
 
     static bool             containsTouchPointAR(cocos2d::Node* target, cocos2d::Touch* touch);
 

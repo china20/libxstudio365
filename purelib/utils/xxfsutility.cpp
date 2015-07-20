@@ -41,9 +41,11 @@ std::string fsutil::read_file_data(const char* filename)
 {
     FILE* fp = fopen(filename, "rb");
     if(fp == nullptr) 
-        return (char*)"";
+        return (const char*)"";
 
     size_t size = get_file_size(fp);
+	if (size == 0)
+		return "";
 
     std::string storage(size, '\0');
 

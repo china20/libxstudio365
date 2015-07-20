@@ -20,27 +20,27 @@ namespace vx365 {
 		PLIB_STATICIZE_CLASS(ObjectAttribsLoader);
     public:
 
-		static void loadObjectAttribs(const xmldrv::element&, VXObjectType objType, Node*);
+        static void loadObjectAttribs(const xmldrv::element&, VXObjectType objType, Node*, ObjectLoader* ctx);
 
-		static void loadAttribsOfNode(const xmldrv::element&, Node*);
-		static void loadAttribsOfSprite(const xmldrv::element&, Node*);
-		static void loadAttribsOfScale9Sprite(const xmldrv::element&, Node*);
-		static void loadAttribsOfLabel(const xmldrv::element&, Node*);
-		static void loadAttribsOfLabelAtlas(const xmldrv::element&, Node*);
-		static void loadAttribsOfLabelBMFont(const xmldrv::element&, Node*);
-		static void loadAttribsOfParticleSystem(const xmldrv::element&, Node*);
+        static void loadAttribsOfNode(const xmldrv::element&, Node*, ObjectLoader* ctx);
+        static void loadAttribsOfSprite(const xmldrv::element&, Node*, ObjectLoader* ctx);
+        static void loadAttribsOfScale9Sprite(const xmldrv::element&, Node*, ObjectLoader* ctx);
+        static void loadAttribsOfLabel(const xmldrv::element&, Node*, ObjectLoader* ctx);
+        static void loadAttribsOfLabelAtlas(const xmldrv::element&, Node*, ObjectLoader* ctx);
+        static void loadAttribsOfLabelBMFont(const xmldrv::element&, Node*, ObjectLoader* ctx);
+        static void loadAttribsOfParticleSystem(const xmldrv::element&, Node*, ObjectLoader* ctx);
 
-		static void loadAttribsOfTextField(const xmldrv::element&, Node*);
-		static void loadAttribsOfButton(const xmldrv::element&, Node*);
-		static void loadAttribsOfSliderBar(const xmldrv::element&, Node*);
-		static void loadAttribsOfProgressBar(const xmldrv::element&, Node*);
-		static void loadAttribsOfCheckBox(const xmldrv::element&, Node*);
-		static void loadAttribsOfSwitch(const xmldrv::element&, Node*);
+        static void loadAttribsOfTextField(const xmldrv::element&, Node*, ObjectLoader* ctx);
+        static void loadAttribsOfButton(const xmldrv::element&, Node*, ObjectLoader* ctx);
+        static void loadAttribsOfSliderBar(const xmldrv::element&, Node*, ObjectLoader* ctx);
+        static void loadAttribsOfProgressBar(const xmldrv::element&, Node*, ObjectLoader* ctx);
+        static void loadAttribsOfCheckBox(const xmldrv::element&, Node*, ObjectLoader* ctx);
+        static void loadAttribsOfSwitch(const xmldrv::element&, Node*, ObjectLoader* ctx);
 
-		static void loadAttribsOfLayout(const xmldrv::element&, Node*);
-		static void loadAttribsOfScrollView(const xmldrv::element&, Node*);
-		static void loadAttribsOfPageView(const xmldrv::element&, Node*);
-		static void loadAttribsOfListView(const xmldrv::element&, Node*);
+        static void loadAttribsOfLayout(const xmldrv::element&, Node*, ObjectLoader* ctx);
+        static void loadAttribsOfScrollView(const xmldrv::element&, Node*, ObjectLoader* ctx);
+        static void loadAttribsOfPageView(const xmldrv::element&, Node*, ObjectLoader* ctx);
+        static void loadAttribsOfListView(const xmldrv::element&, Node*, ObjectLoader* ctx);
     };
 
 }

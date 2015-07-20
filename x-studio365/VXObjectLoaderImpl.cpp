@@ -48,7 +48,7 @@ void ObjectLoaderImpl::convertFromRecursively(const xml4w::element& parentInfo, 
 		// configuration common attributes
 		newObj->ignoreAnchorPointForPosition(false);
 
-		ObjectAttribsLoader::loadObjectAttribs(nodeInfo, objType, newObj);
+		ObjectAttribsLoader::loadObjectAttribs(nodeInfo, objType, newObj, context);
 
         if (newObj != nullptr)
         { // µÝ½ø

@@ -111,14 +111,14 @@ static void setNodeMargin(Node* detail, VXLocateType locateType, const MSWRect& 
 }
 
 extern VXFuncTableItem internalFuncTab[];
-void ObjectAttribsLoader::loadObjectAttribs(const xmldrv::element& s, VXObjectType objType, Node* n)
+void ObjectAttribsLoader::loadObjectAttribs(const xmldrv::element& s, VXObjectType objType, Node* n, ObjectLoader* ctx)
 {
     Node* newNode = NULL;
 
     if (objType > kVXObjectTypeNone && objType < kVXObjectTypeLimitValue) {
         auto& item = internalFuncTab[objType];
         if (item.lpfnLoadObjectAttr != nullptr) {
-            item.lpfnLoadObjectAttr(s, n);
+            item.lpfnLoadObjectAttr(s, n, ctx);
         }
         else {
             cocos2d::log("vx365::ObjectLoaderImpl::createObjectInternal, unsupport type: %d", objType);
@@ -127,7 +127,7 @@ void ObjectAttribsLoader::loadObjectAttribs(const xmldrv::element& s, VXObjectTy
     }
 }
 
-void ObjectAttribsLoader::loadAttribsOfNode(const xmldrv::element& valueS, Node* n)
+void ObjectAttribsLoader::loadAttribsOfNode(const xmldrv::element& valueS, Node* n, ObjectLoader* )
 {
     auto self = n;
     assert(self);
@@ -159,13 +159,13 @@ void ObjectAttribsLoader::loadAttribsOfNode(const xmldrv::element& valueS, Node*
     });
 }
 
-void ObjectAttribsLoader::loadAttribsOfSprite(const xmldrv::element& from, Node* n)
+void ObjectAttribsLoader::loadAttribsOfSprite(const xmldrv::element& from, Node* n, ObjectLoader* ctx)
 {
-    loadAttribsOfNode(from, n);
+    loadAttribsOfNode(from, n, ctx);
 
     auto gameobj = dynamic_cast<cocos2d::Sprite*>(n);
 
-    gameobj->setTexture(from.get_attribute_value("texturePath", "")); // TODO: use default image
+    // gameobj->setTexture(from.get_attribute_value("texturePath", "")); // TODO: use default image
     gameobj->setFlippedX(from.get_attribute_value("flippedX", false));
     gameobj->setFlippedY(from.get_attribute_value("flippedY", false));
     readCCRect("textureRect", from, [gameobj](const cocos2d::Rect& value){ gameobj->setTextureRect(value); });
@@ -182,22 +182,22 @@ static void setScale9TexturePath(ui::Scale9Sprite* detail, const std::string& pa
     }
 }
 
-void ObjectAttribsLoader::loadAttribsOfScale9Sprite(const xmldrv::element& from, Node* n)
+void ObjectAttribsLoader::loadAttribsOfScale9Sprite(const xmldrv::element& from, Node* n, ObjectLoader* ctx)
 {
-    loadAttribsOfNode(from, n);
+    loadAttribsOfNode(from, n, ctx);
 
     auto gameobj = dynamic_cast<cocos2d::ui::Scale9Sprite*>(n);
 
-    setScale9TexturePath(gameobj, from.get_attribute_value("texturePath", "")); // TODO: init when create
+    // setScale9TexturePath(gameobj, from.get_attribute_value("texturePath", "")); // TODO: init when create
     gameobj->setFlippedX(from.get_attribute_value("flippedX", false));
     gameobj->setFlippedY(from.get_attribute_value("flippedY", false));
     // readCCRect("textureRect", from, [gameobj](const cocos2d::Rect& value){ gameobj->setTextureRect(value); }); maybe need init when create
     readCCRect("capInsetsRect", from, [gameobj](const cocos2d::Rect& value){ gameobj->setCapInsets(value); });
 }
 
-void ObjectAttribsLoader::loadAttribsOfLabel(const xmldrv::element& from, Node* n)
+void ObjectAttribsLoader::loadAttribsOfLabel(const xmldrv::element& from, Node* n, ObjectLoader* ctx)
 {
-    loadAttribsOfNode(from, n);
+    loadAttribsOfNode(from, n, ctx);
 
     auto label = dynamic_cast<cocos2d::ui::Text*>(n);
     label->setString(from.get_attribute_value("text", ""));
@@ -225,9 +225,9 @@ void ObjectAttribsLoader::loadAttribsOfLabel(const xmldrv::element& from, Node* 
     }
 }
 
-void ObjectAttribsLoader::loadAttribsOfLabelAtlas(const xmldrv::element& from, Node* n)
+void ObjectAttribsLoader::loadAttribsOfLabelAtlas(const xmldrv::element& from, Node* n, ObjectLoader* ctx)
 {
-    loadAttribsOfNode(from, n);
+    loadAttribsOfNode(from, n, ctx);
 
     auto atlas = dynamic_cast<cocos2d::ui::TextAtlas*>(n);
     auto value = from.get_attribute_value("text", "");
@@ -239,23 +239,23 @@ void ObjectAttribsLoader::loadAttribsOfLabelAtlas(const xmldrv::element& from, N
     atlas->setProperty(value, charMapFile, itemWidth, itemHeight, startCharMap);
 }
 
-void ObjectAttribsLoader::loadAttribsOfLabelBMFont(const xmldrv::element& from, Node* n)
+void ObjectAttribsLoader::loadAttribsOfLabelBMFont(const xmldrv::element& from, Node* n, ObjectLoader* ctx)
 {
-    loadAttribsOfNode(from, n);
+    loadAttribsOfNode(from, n, ctx);
 
     auto labelbmf = dynamic_cast<cocos2d::ui::TextBMFont*>(n);
     labelbmf->setFntFile(from.get_attribute_value("BMFontFile", ""));
     labelbmf->setString(from.get_attribute_value("text", ""));
 }
 
-void ObjectAttribsLoader::loadAttribsOfParticleSystem(const xmldrv::element& from, Node* n)
+void ObjectAttribsLoader::loadAttribsOfParticleSystem(const xmldrv::element& from, Node* n, ObjectLoader* ctx)
 {
-    loadAttribsOfNode(from, n);
+    loadAttribsOfNode(from, n, ctx);
 }
 
-void ObjectAttribsLoader::loadAttribsOfTextField(const xmldrv::element& from, Node* n)
+void ObjectAttribsLoader::loadAttribsOfTextField(const xmldrv::element& from, Node* n, ObjectLoader* ctx)
 {
-    loadAttribsOfNode(from, n);
+    loadAttribsOfNode(from, n, ctx);
 
     auto detail = dynamic_cast<purelib::InputBox*>(n);
     detail->setTextColor(from.get_attribute_value("textColor", detail->getTextColor()));
@@ -272,9 +272,9 @@ void ObjectAttribsLoader::loadAttribsOfTextField(const xmldrv::element& from, No
     detail->setString(from.get_attribute_value("text", detail->getString()));
 }
 
-void ObjectAttribsLoader::loadAttribsOfButton(const xmldrv::element& from, Node* n)
+void ObjectAttribsLoader::loadAttribsOfButton(const xmldrv::element& from, Node* n, ObjectLoader* ctx)
 {
-    loadAttribsOfNode(from, n);
+    loadAttribsOfNode(from, n, ctx);
 
     auto detail = dynamic_cast<cocos2d::ui::Button*>(n);
     detail->setZoomScale(from.get_attribute_value("zoomScale", detail->getZoomScale()));
@@ -286,9 +286,6 @@ void ObjectAttribsLoader::loadAttribsOfButton(const xmldrv::element& from, Node*
 
     detail->setUnifySizeEnabled(from.get_attribute_value("unifySizeEnabled", false));
     detail->ignoreContentAdaptWithSize(from.get_attribute_value("ignoreContentAdaptWithSize", true));
-    detail->loadTextureNormal(from.get_attribute_value("backgroundNormalImage", ""));
-    detail->loadTexturePressed(from.get_attribute_value("backgroundSelectedImage", ""));
-    detail->loadTextureDisabled(from.get_attribute_value("backgroundDisableImage", ""));
 
     detail->setScale9Enabled(from.get_attribute_value("scale9Enabled", detail->isScale9Enabled()));
     detail->setCapInsetsNormalRenderer(from.get_attribute_value("backgroundNormalCapInsetsRect", detail->getCapInsetsNormalRenderer()));
@@ -296,33 +293,35 @@ void ObjectAttribsLoader::loadAttribsOfButton(const xmldrv::element& from, Node*
     detail->setCapInsetsDisabledRenderer(from.get_attribute_value("backgroundDisabledCapInsetsRect", detail->getCapInsetsDisabledRenderer()));
 }
 
-void ObjectAttribsLoader::loadAttribsOfSliderBar(const xmldrv::element& from, Node* n)
+void ObjectAttribsLoader::loadAttribsOfSliderBar(const xmldrv::element& from, Node* n, ObjectLoader* ctx)
 {
-    loadAttribsOfNode(from, n);
+    loadAttribsOfNode(from, n, ctx);
 
-    auto detial = dynamic_cast<cocos2d::extension::ControlSlider*>(n);
+    auto detial = dynamic_cast<cocos2d::ui::Slider*>(n);
     detial->setEnabled(from.get_attribute_value("enabled", true));
-    detial->setMaximumValue(from.get_attribute_value("maximumValue", detial->getMaximumValue()));
-    detial->setMinimumValue(from.get_attribute_value("minimumValue", detial->getMinimumValue()));
+    detial->setPercent(from.get_attribute_value("percent", detial->getPercent()));
+    detial->ignoreContentAdaptWithSize(from.get_attribute_value("ignoreContentAdaptWithSize", true));
+    /*detial->setMinimumValue(from.get_attribute_value("minimumValue", detial->getMinimumValue()));
     detial->setMaximumAllowedValue(from.get_attribute_value("maximumAllowedValue", detial->getMaximumAllowedValue()));
     detial->setMinimumAllowedValue(from.get_attribute_value("minimumAllowedValue", detial->getMinimumAllowedValue()));
-    detial->setValue(from.get_attribute_value("value", detial->getValue()));
+    detial->setValue(from.get_attribute_value("value", detial->getValue()));*/
 }
 
-void ObjectAttribsLoader::loadAttribsOfProgressBar(const xmldrv::element& from, Node* n)
+void ObjectAttribsLoader::loadAttribsOfProgressBar(const xmldrv::element& from, Node* n, ObjectLoader* ctx)
 {
-    loadAttribsOfNode(from, n);
+    loadAttribsOfNode(from, n, ctx);
 
     auto detail = dynamic_cast<purelib::ProgressBar*>(n);
-    detail->getBackgroundSprite()->setTexture(from.get_attribute_value("backgroundImage", ""));
-    detail->getProgressSprite()->setTexture(from.get_attribute_value("progressImage", ""));
-
-    detail->updateTexture();
+    detail->setMaximumValue(from.get_attribute_value("maximumValue", 100));
+    detail->setValue(from.get_attribute_value("value", 20));
+    //detail->getBackgroundSprite()->setTexture(from.get_attribute_value("backgroundImage", ""));
+    //detail->getProgressSprite()->setTexture(from.get_attribute_value("progressImage", ""));
+    //detail->updateTexture();
 }
 
-void ObjectAttribsLoader::loadAttribsOfCheckBox(const xmldrv::element& from, Node* n)
+void ObjectAttribsLoader::loadAttribsOfCheckBox(const xmldrv::element& from, Node* n, ObjectLoader* ctx)
 {
-    loadAttribsOfNode(from, n);
+    loadAttribsOfNode(from, n, ctx);
 
     auto detail = dynamic_cast<cocos2d::ui::CheckBox*>(n);
 
@@ -332,16 +331,12 @@ void ObjectAttribsLoader::loadAttribsOfCheckBox(const xmldrv::element& from, Nod
 
     detail->setUnifySizeEnabled(from.get_attribute_value("unifySizeEnabled", false));
     detail->ignoreContentAdaptWithSize(from.get_attribute_value("ignoreContentAdaptWithSize", true));
-
-    detail->loadTextureBackGround(from.get_attribute_value("backgroundImage", ""));
-    detail->loadTextureBackGroundSelected(from.get_attribute_value("backgroundSelectedImage", ""));
-    detail->loadTextureBackGroundDisabled(from.get_attribute_value("backgroundDisabledImage", ""));
-    detail->loadTextureFrontCross(from.get_attribute_value("checkedImage", ""));
-    detail->loadTextureFrontCrossDisabled(from.get_attribute_value("checkedDisabledImage", ""));
 }
 
-void ObjectAttribsLoader::loadAttribsOfSwitch(const xmldrv::element& from, Node* n)
+void ObjectAttribsLoader::loadAttribsOfSwitch(const xmldrv::element& from, Node* n, ObjectLoader* ctx)
 {
+    loadAttribsOfNode(from, n, ctx);
+
     auto detail = dynamic_cast<cocos2d::extension::ControlSwitch*>(n);
 
     detail->setOn(from.get_attribute_value("on", false));
@@ -352,9 +347,9 @@ static void  setLayoutGradientRotation(cocos2d::ui::Layout* layout, float degree
     auto adjust = CC_DEGREES_TO_RADIANS(degree);
     layout->setBackGroundColorVector(cocos2d::Vec2::forAngle(adjust));
 }
-void ObjectAttribsLoader::loadAttribsOfLayout(const xmldrv::element& from, Node* n)
+void ObjectAttribsLoader::loadAttribsOfLayout(const xmldrv::element& from, Node* n, ObjectLoader* ctx)
 {
-    loadAttribsOfNode(from, n);
+    loadAttribsOfNode(from, n, ctx);
 
     auto detail = dynamic_cast<cocos2d::ui::Layout*>(n);
 
@@ -367,7 +362,8 @@ void ObjectAttribsLoader::loadAttribsOfLayout(const xmldrv::element& from, Node*
 
     detail->setUnifySizeEnabled(from.get_attribute_value("unifySizeEnabled", false));
     detail->ignoreContentAdaptWithSize(from.get_attribute_value("ignoreContentAdaptWithSize", true));
-    detail->setBackGroundImage(from.get_attribute_value("backgroundImage", ""));
+    
+    detail->setBackGroundImage(from.get_attribute_value("backgroundImage", ""), ctx->isMergedTexUsed() ? ui::Widget::TextureResType::PLIST : ui::Widget::TextureResType::LOCAL);
     detail->setBackGroundImageColor(from.get_attribute_value("backgroundImageColor", detail->getBackGroundImageColor()));
     detail->setBackGroundImageOpacity(from.get_attribute_value("backgroundImageOpacity", (unsigned int)detail->getBackGroundImageOpacity()));
 
@@ -381,9 +377,9 @@ void ObjectAttribsLoader::loadAttribsOfLayout(const xmldrv::element& from, Node*
     detail->setBackGroundImageCapInsets(from.get_attribute_value("backgroundImageCapInsets", detail->getBackGroundImageCapInsets()));
 }
 
-void ObjectAttribsLoader::loadAttribsOfScrollView(const xmldrv::element& from, Node* n)
+void ObjectAttribsLoader::loadAttribsOfScrollView(const xmldrv::element& from, Node* n, ObjectLoader* ctx)
 {
-    loadAttribsOfLayout(from, n);
+    loadAttribsOfLayout(from, n, ctx);
 
     auto detail = dynamic_cast<cocos2d::ui::ScrollView*>(n);
     detail->setBounceEnabled(from.get_attribute_value("bounceEnabled", detail->isBounceEnabled()));
@@ -392,9 +388,9 @@ void ObjectAttribsLoader::loadAttribsOfScrollView(const xmldrv::element& from, N
     detail->setDirection(VXEnumScrollDirection::toEnumVal(from.get_attribute_value("direction", VXEnumScrollDirection::toStrVal(detail->getDirection()))));
 }
 
-void ObjectAttribsLoader::loadAttribsOfPageView(const xmldrv::element& from, Node* n)
+void ObjectAttribsLoader::loadAttribsOfPageView(const xmldrv::element& from, Node* n, ObjectLoader* ctx)
 {
-    loadAttribsOfLayout(from, n);
+    loadAttribsOfLayout(from, n, ctx);
 
     auto detail = dynamic_cast<cocos2d::ui::PageView*>(n);
     detail->setUsingCustomScrollThreshold(from.get_attribute_value("usingCustomScrollThreshold", detail->isUsingCustomScrollThreshold()));
@@ -402,9 +398,9 @@ void ObjectAttribsLoader::loadAttribsOfPageView(const xmldrv::element& from, Nod
         detail->setCustomScrollThreshold(from.get_attribute_value("customScrollThreshold", detail->getCustomScrollThreshold()));
 }
 
-void ObjectAttribsLoader::loadAttribsOfListView(const xmldrv::element& from, Node* n)
+void ObjectAttribsLoader::loadAttribsOfListView(const xmldrv::element& from, Node* n, ObjectLoader* ctx)
 {
-    loadAttribsOfScrollView(from, n);
+    loadAttribsOfScrollView(from, n, ctx);
 
     // list view spec
     auto detail = dynamic_cast<cocos2d::ui::ListView*>(n);

@@ -298,6 +298,20 @@ bool nodes_utility::containsTouchPoint(cocos2d::Node* target, cocos2d::Touch* to
     return contains;
 }
 
+bool  nodes_utility::containsTouchPoint(cocos2d::Node* target, const cocos2d::Vec2& worldPoint)
+{
+    cocos2d::Point pt = target->convertToNodeSpace(worldPoint);
+
+    const cocos2d::Size& size = target->getContentSize();
+
+    cocos2d::Rect rc(0, 0, size.width, size.height);
+
+    bool contains = (rc.containsPoint(pt));
+
+    // CCLOG("check %#x coordinate:(%f, %f), contains:%d", target, pt.x, pt.y, contains);
+    return contains;
+}
+
 bool nodes_utility::containsTouchPointAR(cocos2d::Node* target, cocos2d::Touch* touch)
 {
     assert(target != nullptr);

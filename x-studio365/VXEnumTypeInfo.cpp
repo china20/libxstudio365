@@ -53,7 +53,7 @@ void tableInit(void)
     VXEnumObjectType::bind("Button", kVXObjectTypeButton);
     VXEnumObjectType::bind("Text", kVXObjectTypeLabel);
     VXEnumObjectType::bind("InputBox", kVXObjectTypeTextField);
-    VXEnumObjectType::bind("ControlSlider", kVXObjectTypeSlider);
+    VXEnumObjectType::bind("Slider", kVXObjectTypeSlider);
     VXEnumObjectType::bind("ProgressBar", kVXObjectTypeProgressBar);
     VXEnumObjectType::bind("CheckBox", kVXObjectTypeCheckBox);
 

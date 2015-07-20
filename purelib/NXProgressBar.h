@@ -32,8 +32,9 @@ class ProgressBar : public cocos2d::Layer
     CC_SYNTHESIZE_READONLY(float, m_maximumValue, MaximumValue);
     virtual void setMaximumValue(float val);
 
-    CC_SYNTHESIZE(float, m_minimumAllowedValue, MinimumAllowedValue);
-    CC_SYNTHESIZE(float, m_maximumAllowedValue, MaximumAllowedValue);
+	// only slider need flow members
+    /*CC_SYNTHESIZE(float, m_minimumAllowedValue, MinimumAllowedValue);
+    CC_SYNTHESIZE(float, m_maximumAllowedValue, MaximumAllowedValue);*/
 
     // maybe this should be read-only
     /*CC_SYNTHESIZE_RETAIN(Sprite*, m_thumbSprite, ThumbSprite);*/

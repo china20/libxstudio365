@@ -14,8 +14,8 @@ ProgressBar::ProgressBar()
 : m_value(0.0f)
 , m_minimumValue(0.0f)
 , m_maximumValue(0.0f)
-, m_minimumAllowedValue(0.0f)
-, m_maximumAllowedValue(0.0f)
+//, m_minimumAllowedValue(0.0f)
+//, m_maximumAllowedValue(0.0f)
 , m_progressSprite(NULL)
 , m_backgroundSprite(NULL)
 {
@@ -148,7 +148,7 @@ bool ProgressBar::initWithFiles(const char * bgFile, const char* progressFile)
  void ProgressBar::setMinimumValue(float minimumValue)
  {
      m_minimumValue=minimumValue;
-     m_minimumAllowedValue = minimumValue;
+     /*m_minimumAllowedValue = minimumValue;*/
      if (m_minimumValue >= m_maximumValue)    
      {
         m_maximumValue   = m_minimumValue + 1.0f;
@@ -159,7 +159,7 @@ bool ProgressBar::initWithFiles(const char * bgFile, const char* progressFile)
  void ProgressBar::setMaximumValue(float maximumValue)
  {
      m_maximumValue=maximumValue;
-     m_maximumAllowedValue = maximumValue;
+     /*m_maximumAllowedValue = maximumValue;*/
      if (m_maximumValue <= m_minimumValue)   
      {
         m_minimumValue   = m_maximumValue - 1.0f;
