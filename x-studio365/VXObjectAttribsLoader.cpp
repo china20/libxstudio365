@@ -127,7 +127,7 @@ void ObjectAttribsLoader::loadObjectAttribs(const xmldrv::element& s, VXObjectTy
     }
 }
 
-void ObjectAttribsLoader::loadAttribsOfNode(const xmldrv::element& valueS, Node* n, ObjectLoader* )
+void ObjectAttribsLoader::loadAttribsOfNode(const xmldrv::element& valueS, Node* n, ObjectLoader*)
 {
     auto self = n;
     assert(self);
@@ -362,7 +362,7 @@ void ObjectAttribsLoader::loadAttribsOfLayout(const xmldrv::element& from, Node*
 
     detail->setUnifySizeEnabled(from.get_attribute_value("unifySizeEnabled", false));
     detail->ignoreContentAdaptWithSize(from.get_attribute_value("ignoreContentAdaptWithSize", true));
-    
+
     detail->setBackGroundImage(from.get_attribute_value("backgroundImage", ""), ctx->isMergedTexUsed() ? ui::Widget::TextureResType::PLIST : ui::Widget::TextureResType::LOCAL);
     detail->setBackGroundImageColor(from.get_attribute_value("backgroundImageColor", detail->getBackGroundImageColor()));
     detail->setBackGroundImageOpacity(from.get_attribute_value("backgroundImageOpacity", (unsigned int)detail->getBackGroundImageOpacity()));

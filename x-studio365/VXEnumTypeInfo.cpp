@@ -46,10 +46,10 @@ void tableInit(void)
     VXEnumObjectType::bind("Node", kVXObjectTypeNode);
     VXEnumObjectType::bind("Sprite", kVXObjectTypeSprite);
     VXEnumObjectType::bind("Scale9Sprite", kVXObjectTypeScale9Sprite);
-    
+
     VXEnumObjectType::bind("Layer", kVXObjectTypeLayer);
     VXEnumObjectType::bind("LayerColor", kVXObjectTypeLayerColor);
-    
+
     VXEnumObjectType::bind("Button", kVXObjectTypeButton);
     VXEnumObjectType::bind("Text", kVXObjectTypeLabel);
     VXEnumObjectType::bind("InputBox", kVXObjectTypeTextField);

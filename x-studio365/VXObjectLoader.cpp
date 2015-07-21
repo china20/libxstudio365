@@ -24,7 +24,7 @@ Node* ObjectLoader::load(const char* file, bool security, const char* key)
 
 void ObjectLoader::registerVariable(const std::string& xkey, Node** ppNodeStorage)
 {
-	this->variable_tab_.insert(std::make_pair(xkey, ppNodeStorage));
+    this->variable_tab_.insert(std::make_pair(xkey, ppNodeStorage));
 }
 
 void ObjectLoader::unregisterHandler(const std::string& xpath)

@@ -9,7 +9,7 @@
 #include <cocos2d.h>
 #include "VXEnumTypeInfo.h"
 #include "purelib/utils/xmldrv.h"
-USING_NS_CC; 
+USING_NS_CC;
 
 namespace vx365 {
 
@@ -17,7 +17,7 @@ namespace vx365 {
 
     class ObjectAttribsLoader
     {
-		PLIB_STATICIZE_CLASS(ObjectAttribsLoader);
+        PLIB_STATICIZE_CLASS(ObjectAttribsLoader);
     public:
 
         static void loadObjectAttribs(const xmldrv::element&, VXObjectType objType, Node*, ObjectLoader* ctx);

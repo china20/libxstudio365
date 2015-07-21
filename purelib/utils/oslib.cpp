@@ -27,29 +27,32 @@ extern long long atoll(const char* p)
 
 /// the implemention of gettimeofday on win32
 #if defined(_MSC_VER) || defined(_MSC_EXTENSIONS)   
-#define EPOCHFILETIME  11644473600000000Ui64   
+#define EPOCHFILETIME  11644473600000000Ui64
 #else   
-#define EPOCHFILETIME  11644473600000000ULL   
+#define EPOCHFILETIME  11644473600000000ULL
 #endif
 extern int
 gettimeofday(struct timeval *tv, struct timezone2 *tz)
 {
     FILETIME ft;
-    LARGE_INTEGER li;
-    __int64 t;
-    static int tzflag;
+    unsigned __int64 now = 0;
+    static int tzflag = 0;
 
-    if (tv)
+    if (NULL != tv)
     {
         GetSystemTimeAsFileTime(&ft);
-        li.LowPart = ft.dwLowDateTime;
-        li.HighPart = ft.dwHighDateTime;
-        t = li.QuadPart;      /* In 100-nanosecond intervals */
-        t -= EPOCHFILETIME;   /* Offset to the Epoch time */
-        t /= 10;          /* In microseconds */
-        tv->tv_sec = (long)(t / 1000000);
-        tv->tv_usec = (long)(t % 1000000);
+
+        now |= ft.dwHighDateTime;
+        now <<= 32;
+        now |= ft.dwLowDateTime;
+
+        now /= 10;  /*convert into microseconds*/
+        /*converting file time to unix epoch*/
+        now -= EPOCHFILETIME;
+        tv->tv_sec = (long)(now / 1000000UL);
+        tv->tv_usec = (long)(now % 1000000UL);
     }
+
 
     if (tz)
     {

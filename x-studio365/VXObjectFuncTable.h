@@ -13,7 +13,7 @@ namespace cocos2d {
 };
 
 namespace vx365 {
-    
+
     class ObjectLoader;
 };
 

@@ -114,7 +114,7 @@ Node* vx365::ObjectFactory::internalCreateSliderBar(const xmldrv::element& info,
     slider->loadSlidBallTextureNormal(thumbImage, resType);
     slider->loadSlidBallTexturePressed(thumbPressedImage, resType);
     slider->loadSlidBallTextureDisabled(thumbDisabledImage, resType);
-    
+
     return slider;
 }
 
@@ -129,9 +129,9 @@ Node* vx365::ObjectFactory::internalCreateProgressBar(const xmldrv::element& fro
 Node* vx365::ObjectFactory::internalCreateTextField(const xmldrv::element& info, ObjectLoader* ctx)
 {
     return InputBox::create(
-        info.get_attribute_value("placeholder", "Default Placeholder"), 
-        info.get_attribute_value("fontName", "Courier New"), 
-        info.get_attribute_value("fontSize", 24), 
+        info.get_attribute_value("placeholder", "Default Placeholder"),
+        info.get_attribute_value("fontName", "Courier New"),
+        info.get_attribute_value("fontSize", 24),
         5.0f,
         info.get_attribute_value("cursorColor", Color4B::WHITE));
 }
@@ -196,7 +196,7 @@ Node* vx365::ObjectFactory::internalCreateButton(const xmldrv::element& info, Ob
     auto disableImage = info.get_attribute_value("backgroundDisableImage", "");
 
     auto texType = !ctx->isMergedTexUsed() ? ui::TextureResType::LOCAL : ui::TextureResType::PLIST;
-    
+
     return ui::Button::create(normalImage, selectedImage, disableImage, texType);
 }
 

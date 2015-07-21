@@ -44,7 +44,7 @@ enum VXObjectType
     kVXObjectTypeLabelAtlas,
     kVXObjectTypeLabelBMFont,
     kVXObjectTypeRichLabel,
-    
+
     // control
     kVXObjectTypeTextField,
     kVXObjectTypeButton,
@@ -88,7 +88,7 @@ enum VXParticleType
 };
 
 struct equal_to_i
-    : public std::binary_function<std::string, std::string, bool>
+    : public std::binary_function < std::string, std::string, bool >
 {    // functor for operator==
     bool operator()(const std::string& _Left, const std::string& _Right) const
     {    // apply operator== to operands
@@ -114,7 +114,7 @@ public:
     static EnumType toEnumVal(const std::string& enumKey)
     {
         auto target = tableString2Enum.find(enumKey);
-        
+
         assert(target != tableString2Enum.end());
 
         return target->second;

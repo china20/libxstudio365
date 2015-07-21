@@ -11,7 +11,7 @@
 USING_NS_CC;
 
 namespace vx365 {
-    
+
     enum EventType
     {
         kEventTypeTouchDown,
@@ -24,8 +24,8 @@ namespace vx365 {
         kEventTypeTimeElapsed,
     };
 
-	typedef purelib::privacy::event_handler_manager<Node*, std::string, EventType, EventType> event_handler_manager;
-	typedef event_handler_manager::event_handler event_handler;
+    typedef purelib::privacy::event_handler_manager<Node*, std::string, EventType, EventType> event_handler_manager;
+    typedef event_handler_manager::event_handler event_handler;
 
     class ObjectLoaderImpl;
 
@@ -36,7 +36,7 @@ namespace vx365 {
     public:
         Node*      load(const char* file, bool security = true, const char* key = nullptr);
 
-		void       registerVariable(const std::string& xkey, Node** ppNodeStorage);
+        void       registerVariable(const std::string& xkey, Node** ppNodeStorage);
 
 
         // xkey
@@ -44,21 +44,21 @@ namespace vx365 {
         //   1. /Scene/LayerColor_1/Sprite_1
         //
         template<typename _Fty>
-		event_handler* registerHandler(const std::string& xkey, EventType eventType, const _Fty& callback)
+        event_handler* registerHandler(const std::string& xkey, EventType eventType, const _Fty& callback)
         {
             auto handler = event_handler_manager::new_event_handler<_Fty>(callback);
             handler->set_event_type(eventType);
-			return ehm_.register_handler(xkey, handler);
+            return ehm_.register_handler(xkey, handler);
         }
 
-		void       unregisterHandler(const std::string& xpath);
-		void       unregisterHandler(event_handler* handler);
+        void       unregisterHandler(const std::string& xpath);
+        void       unregisterHandler(event_handler* handler);
 
         bool       isMergedTexUsed(void) const { return merged_tex_used_; }
     private:
-		std::string                             currentkey_;
+        std::string                             currentkey_;
         event_handler_manager                   ehm_;
-		std::unordered_map<std::string, Node**> variable_tab_;
+        std::unordered_map<std::string, Node**> variable_tab_;
 
         bool                                    merged_tex_used_;
     };

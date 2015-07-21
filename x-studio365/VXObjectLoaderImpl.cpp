@@ -24,12 +24,12 @@ Node*  ObjectLoaderImpl::convertFromRecursively(const xml4w::document& doc, Obje
     VXEnumObjectType objType(root.get_name());
 
     // VXEnumParticleType particleType(root.get_attribute_value("particleType", "Unknow"));
-	auto zobj = createObjectInternal(root, objType, context);
+    auto zobj = createObjectInternal(root, objType, context);
     // zobj->convertFrom(root);
     /*if (parent != nullptr)
         zobj->setDeep(parent->getDeep() + 1);*/
     //context->parentkey_ = "/";
-    
+
     convertFromRecursively(root, zobj, context, 1);
 
     return zobj;
@@ -41,14 +41,14 @@ void ObjectLoaderImpl::convertFromRecursively(const xml4w::element& parentInfo, 
     parentInfo.cforeach([&parentkey, parentNode, context, deep](const xml4w::element& nodeInfo){
         // current child
         VXEnumObjectType objType(nodeInfo.get_name());
-		auto nameAttrib = nodeInfo.get_attribute_value("name", "");
-		context->currentkey_ = parentkey + (nameAttrib.empty() ? nodeInfo.get_name() : nameAttrib);
-		auto newObj = createObjectInternal(nodeInfo, parentNode, objType, context);
+        auto nameAttrib = nodeInfo.get_attribute_value("name", "");
+        context->currentkey_ = parentkey + (nameAttrib.empty() ? nodeInfo.get_name() : nameAttrib);
+        auto newObj = createObjectInternal(nodeInfo, parentNode, objType, context);
 
-		// configuration common attributes
-		newObj->ignoreAnchorPointForPosition(false);
+        // configuration common attributes
+        newObj->ignoreAnchorPointForPosition(false);
 
-		ObjectAttribsLoader::loadObjectAttribs(nodeInfo, objType, newObj, context);
+        ObjectAttribsLoader::loadObjectAttribs(nodeInfo, objType, newObj, context);
 
         if (newObj != nullptr)
         { // µÝ½ø
@@ -59,9 +59,9 @@ void ObjectLoaderImpl::convertFromRecursively(const xml4w::element& parentInfo, 
 
 Node* ObjectLoaderImpl::createObjectInternal(const xml4w::element& levelInfo, cocos2d::Node* parentNode, VXObjectType type, ObjectLoader* context)
 {
-	auto newObj = createObjectInternal(levelInfo, type, context);
+    auto newObj = createObjectInternal(levelInfo, type, context);
 
-    auto parent = parentNode; 
+    auto parent = parentNode;
 
     if (newObj)
     {
@@ -75,31 +75,31 @@ Node* ObjectLoaderImpl::createObjectInternal(const xml4w::element& levelInfo, VX
 {
     Node* newNode = vx365::ObjectFactory::internalCreateObject(levelInfo, type, context);
 
-	/// init variables
-	auto varb = context->variable_tab_.find(context->currentkey_);
-	if (varb != context->variable_tab_.end() && varb->second != nullptr)
-	{
-		*varb->second = newNode;
-	}
-    
+    /// init variables
+    auto varb = context->variable_tab_.find(context->currentkey_);
+    if (varb != context->variable_tab_.end() && varb->second != nullptr)
+    {
+        *varb->second = newNode;
+    }
+
     /// register event to cocos2d-x event dispatcher TODO: impl
     /*auto wrapper_set = context->ehm_.get_handler_set(context->currentkey_);
     for (auto& wrapper : *wrapper_set)
     {
-        switch (wrapper.handler->get_event_type())
-        {
-        case kEventTypeTouchDown:
-            if (1){
-                auto touchListener = EventListenerTouchOneByOne::create();
-                touchListener->setSwallowTouches(true);
-                touchListener->onTouchBegan = [&wrapper,newNode](Touch*, Event*){
-                    return wrapper.handler->invoke(newNode, kEventTypeTouchDown);
-                };
+    switch (wrapper.handler->get_event_type())
+    {
+    case kEventTypeTouchDown:
+    if (1){
+    auto touchListener = EventListenerTouchOneByOne::create();
+    touchListener->setSwallowTouches(true);
+    touchListener->onTouchBegan = [&wrapper,newNode](Touch*, Event*){
+    return wrapper.handler->invoke(newNode, kEventTypeTouchDown);
+    };
 
-                Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, newNode);
-            }
-            break;
-        }
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, newNode);
+    }
+    break;
+    }
     }*/
 
     return newNode;
@@ -156,9 +156,9 @@ static Node* internalCreateProgressBar(const xmldrv::element& from, ObjectLoader
 static Node* internalCreateTextField(const xmldrv::element& info, ObjectLoader* ctx)
 {
     return InputBox::create(
-        info.get_attribute_value("placeholder", "Default Placeholder"), 
-        info.get_attribute_value("fontName", "Courier New"), 
-        info.get_attribute_value("fontSize", 24), 
+        info.get_attribute_value("placeholder", "Default Placeholder"),
+        info.get_attribute_value("fontName", "Courier New"),
+        info.get_attribute_value("fontSize", 24),
         5.0f,
         info.get_attribute_value("cursorColor", Color4B::WHITE));
 }
@@ -223,7 +223,7 @@ static Node* internalCreateButton(const xmldrv::element& info, ObjectLoader* ctx
     auto disableImage = info.get_attribute_value("backgroundDisableImage", "");
 
     auto texType = !ctx->isMergedTexUsed() ? ui::TextureResType::LOCAL : ui::TextureResType::PLIST;
-    
+
     return ui::Button::create(normalImage, selectedImage, disableImage, texType);
 }
 

@@ -9,7 +9,7 @@
 #include <cocos2d.h>
 #include "VXEnumTypeInfo.h"
 #include "purelib/utils/xmldrv.h"
-USING_NS_CC; 
+USING_NS_CC;
 
 namespace vx365 {
 
@@ -25,8 +25,8 @@ namespace vx365 {
 
         static void   convertFromRecursivelyImpl(const xml4w::element& levelInfo, cocos2d::Node* levelNode, ObjectLoader* context, int deep);
 
-		static Node*  createObjectInternal(const xml4w::element& levelInfo, cocos2d::Node* parent, VXObjectType type, ObjectLoader* context);
-		static Node*  createObjectInternal(const xml4w::element& levelInfo, VXObjectType type, ObjectLoader* context);
+        static Node*  createObjectInternal(const xml4w::element& levelInfo, cocos2d::Node* parent, VXObjectType type, ObjectLoader* context);
+        static Node*  createObjectInternal(const xml4w::element& levelInfo, VXObjectType type, ObjectLoader* context);
 
         static Node*  createNode(const xml4w::element& levelInfo, ObjectLoader* context);
     };
