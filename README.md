@@ -1,7 +1,7 @@
 # libxstudio365
-The x-studio365 UI(Scene) loader lib.
+The x-studio365 UI(Scene) loader library.
 
-VERSION: 1.0.31.0
+VERSION: 1.0.31.1
 
 compile list:
 purelib/utils/aes_core.c
