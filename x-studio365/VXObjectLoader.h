@@ -24,10 +24,13 @@ namespace vx365 {
         kEventTypeTimeElapsed,
     };
 
-    typedef purelib::privacy::event_handler_manager<Node*, std::string, EventType, EventType> event_handler_manager;
-    typedef event_handler_manager::event_handler event_handler;
+    //typedef purelib::privacy::event_handler_manager<Node*, std::string, EventType, EventType> event_handler_manager;
+    //typedef event_handler_manager::event_handler event_handler;
 
     class ObjectLoaderImpl;
+    
+    Node* findNode(Node* root, const char* name, bool recursively = true);
+    Node* findNode(Node* root, int tag, bool recursively = true);
 
     class ObjectLoader
     {
@@ -36,23 +39,23 @@ namespace vx365 {
     public:
         Node*      load(const char* file, bool security = true, const char* key = nullptr);
 
-        void       registerVariable(const std::string& xkey, Node** ppNodeStorage);
+        //void       registerVariable(const std::string& xkey, Node** ppNodeStorage);
 
 
         // xkey
         // supported format: 
         //   1. /Scene/LayerColor_1/Sprite_1
         //
-        template<typename _Fty>
-        event_handler* registerHandler(const std::string& xkey, EventType eventType, const _Fty& callback)
-        {
-            auto handler = event_handler_manager::new_event_handler<_Fty>(callback);
-            handler->set_event_type(eventType);
-            return ehm_.register_handler(xkey, handler);
-        }
+        //template<typename _Fty>
+        //event_handler* registerHandler(const std::string& xkey, EventType eventType, const _Fty& callback)
+        //{
+        //    auto handler = event_handler_manager::new_event_handler<_Fty>(callback);
+        //    handler->set_event_type(eventType);
+        //    return ehm_.register_handler(xkey, handler);
+//}
 
-        void       unregisterHandler(const std::string& xpath);
-        void       unregisterHandler(event_handler* handler);
+        //void       unregisterHandler(const std::string& xpath);
+        //void       unregisterHandler(event_handler* handler);
 
         bool       isMergedTexUsed(void) const { return merged_tex_used_; }
     private:

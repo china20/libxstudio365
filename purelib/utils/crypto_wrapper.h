@@ -223,7 +223,8 @@ namespace crypto {
         std::string md6(const std::string& data); // small data
         std::string md6raw(const std::string& data);
 
-        std::string fmd6(const char* filename);
+        std::string fmd5(const char* filename);
+        std::string fmd6(const char* filename, int hashBytes = 64);
     };
 };
 

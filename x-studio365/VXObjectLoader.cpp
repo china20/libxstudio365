@@ -6,6 +6,50 @@
 
 using namespace vx365;
 
+Node* vx365::findNode(Node* root, const char* name, bool recursively )
+{
+    if (root == nullptr)
+        return nullptr;
+
+    // find this node
+    auto target = root->getChildByName(name);
+    if (target != nullptr)
+        return target;
+
+    if (recursively)
+        // recursively
+        for (auto& child : root->getChildren())
+        {
+            auto target = findDescendant(child, name, recursively);
+            if (target != nullptr)
+                return target;
+        }
+
+    return nullptr;
+}
+
+Node* vx365::findNode(Node* root, int tag, bool recursively )
+{
+    if (root == nullptr)
+        return nullptr;
+
+    // find this node
+    auto target = root->getChildByTag(tag);
+    if (target != nullptr)
+        return target;
+
+    if (recursively)
+        // recursively
+        for (auto& child : root->getChildren())
+        {
+            auto target = findDescendant(child, tag, recursively);
+            if (target != nullptr)
+                return target;
+        }
+
+    return nullptr;
+}
+
 Node* ObjectLoader::load(const char* file, bool security, const char* key)
 {
     merged_tex_used_ = false;
@@ -22,6 +66,7 @@ Node* ObjectLoader::load(const char* file, bool security, const char* key)
     return ObjectLoaderImpl::convertFromRecursively(doc, this);
 }
 
+#if 0
 void ObjectLoader::registerVariable(const std::string& xkey, Node** ppNodeStorage)
 {
     this->variable_tab_.insert(std::make_pair(xkey, ppNodeStorage));
@@ -36,3 +81,5 @@ void ObjectLoader::unregisterHandler(event_handler* handler)
 {
     ehm_.unregister_handler(handler);
 }
+
+#endif

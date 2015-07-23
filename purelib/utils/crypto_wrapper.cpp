@@ -325,7 +325,45 @@ std::string crypto::hash::md6raw(const std::string& plaintext)
     return std::move(result);
 }
 
-std::string crypto::hash::fmd6(const char* filename)
+std::string crypto::hash::fmd5(const char* filename)
+{
+    std::ifstream fin;
+    fin.open(filename, std::ios_base::binary);
+    if (!fin.is_open())
+    {
+        // std::cout << "Transmission Client: open failed!\n";
+        return "";
+    }
+
+    fin.seekg(0, std::ios_base::end);
+    std::streamsize bytes_left = fin.tellg(); // filesize initialized
+    fin.seekg(0, std::ios_base::beg);
+
+    char buffer[HASH_FILE_BUFF_SIZE];
+
+    md5_state_t state;
+
+    char hash[16] = { 0 };
+    std::string result(32, '\0');
+
+    md5_init(&state);
+
+    while (bytes_left > 0) {
+        int bytes_read = (std::min)((std::streamsize)sizeof(buffer), bytes_left);
+        fin.read(buffer, bytes_read);
+        md5_append(&state, (unsigned char*)buffer, bytes_read);
+        bytes_left -= bytes_read;
+    }
+
+    fin.close();
+    md5_finish(&state, (unsigned char*)hash);
+
+    hexs2chars(hash, sizeof(hash), &result.front(), result.size());
+
+    return std::move(result);
+}
+
+std::string crypto::hash::fmd6(const char* filename, int hashByteLen)
 {
     std::ifstream fin;
     fin.open(filename, std::ios_base::binary);
@@ -343,12 +381,14 @@ std::string crypto::hash::fmd6(const char* filename)
 
     md6_state state;
 
-    int hashByteLen = 64;
+    if (hashByteLen > 64)
+        hashByteLen = 64;
+    // int hashByteLen = 64;
 
     // assert(hashByteLen <= 64);
 
     char hash[64] = { 0 };
-    std::string result(128, '\0');
+    std::string result(hashByteLen << 1, '\0');
 
     md6_init(&state, hashByteLen << 3);
 
@@ -362,7 +402,7 @@ std::string crypto::hash::fmd6(const char* filename)
     fin.close();
     md6_final(&state, (unsigned char*)hash);
 
-    hexs2chars(hash, sizeof(hash), &result.front(), result.size());
+    hexs2chars(hash, hashByteLen, &result.front(), result.size());
 
     return std::move(result);
 }
