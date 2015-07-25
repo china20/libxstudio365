@@ -66,6 +66,26 @@ Node* ObjectLoader::load(const char* file, bool security, const char* key)
     return ObjectLoaderImpl::convertFromRecursively(doc, this);
 }
 
+Node*      ObjectLoader::findNode(const char* xkey)
+{
+#if 0
+    auto lower = this->search_tab_.lower_bound(xkey);
+    auto upper = this->search_tab_.upper_bound(xkey);
+
+    while (lower != upper)
+    {
+
+    }
+#endif
+
+    auto t = this->search_tab_.find(xkey);
+    if (t != this->search_tab_.end())
+    {
+        return t->second;
+    }
+    return nullptr;
+}
+
 #if 0
 void ObjectLoader::registerVariable(const std::string& xkey, Node** ppNodeStorage)
 {

@@ -39,6 +39,7 @@ namespace vx365 {
     public:
         Node*      load(const char* file, bool security = true, const char* key = nullptr);
 
+        Node*      findNode(const char* xkey);
         //void       registerVariable(const std::string& xkey, Node** ppNodeStorage);
 
 
