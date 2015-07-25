@@ -20,7 +20,7 @@ Node* vx365::findNode(Node* root, const char* name, bool recursively )
         // recursively
         for (auto& child : root->getChildren())
         {
-            auto target = findDescendant(child, name, recursively);
+            auto target = findNode(child, name, recursively);
             if (target != nullptr)
                 return target;
         }
@@ -42,7 +42,7 @@ Node* vx365::findNode(Node* root, int tag, bool recursively )
         // recursively
         for (auto& child : root->getChildren())
         {
-            auto target = findDescendant(child, tag, recursively);
+            auto target = findNode(child, tag, recursively);
             if (target != nullptr)
                 return target;
         }
