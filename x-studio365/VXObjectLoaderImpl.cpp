@@ -75,12 +75,8 @@ Node* ObjectLoaderImpl::createObjectInternal(const xml4w::element& levelInfo, VX
 {
     Node* newNode = vx365::ObjectFactory::internalCreateObject(levelInfo, type, context);
 
-    /// init variables
-    auto varb = context->variable_tab_.find(context->currentkey_);
-    if (varb != context->variable_tab_.end() && varb->second != nullptr)
-    {
-        *varb->second = newNode;
-    }
+    // build query table
+    context->search_tab_.insert(std::make_pair(context->currentkey_, newNode));
 
     /// register event to cocos2d-x event dispatcher TODO: impl
     /*auto wrapper_set = context->ehm_.get_handler_set(context->currentkey_);

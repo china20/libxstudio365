@@ -59,11 +59,10 @@ namespace vx365 {
 
         bool       isMergedTexUsed(void) const { return merged_tex_used_; }
     private:
-        std::string                             currentkey_;
+        std::string                                  currentkey_;
         //event_handler_manager                   ehm_;
-        std::unordered_map<std::string, Node**> variable_tab_;
-
-        bool                                    merged_tex_used_;
+        std::unordered_multimap<std::string, Node*>  search_tab_;
+        bool                                         merged_tex_used_;
     };
 }
 
