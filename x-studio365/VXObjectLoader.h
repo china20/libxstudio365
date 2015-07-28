@@ -37,9 +37,10 @@ namespace vx365 {
         friend class ObjectLoaderImpl;
 
     public:
-        Node*      load(const char* file, bool security = true, const char* key = nullptr);
+        Node*              load(const char* file, bool security = true, const char* key = nullptr);
 
-        Node*      findNode(const char* xkey);
+        Node*              findNode(const char* xkey);
+        std::vector<Node*> findNodes(const char* xkey);
         //void       registerVariable(const std::string& xkey, Node** ppNodeStorage);
 
 

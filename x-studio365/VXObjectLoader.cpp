@@ -68,22 +68,25 @@ Node* ObjectLoader::load(const char* file, bool security, const char* key)
 
 Node*      ObjectLoader::findNode(const char* xkey)
 {
-#if 0
-    auto lower = this->search_tab_.lower_bound(xkey);
-    auto upper = this->search_tab_.upper_bound(xkey);
-
-    while (lower != upper)
-    {
-
-    }
-#endif
-
     auto t = this->search_tab_.find(xkey);
     if (t != this->search_tab_.end())
     {
         return t->second;
     }
     return nullptr;
+}
+
+std::vector<Node*> ObjectLoader::findNodes(const char* xkey)
+{
+    std::vector<Node*> ret;
+
+    auto range = this->search_tab_.equal_range(xkey);
+    while (range.first != range.second)
+    {
+        ret.push_back( *(range.first++) )
+    }
+
+    return std::move(ret);
 }
 
 #if 0
